@@ -1,3 +1,5 @@
+#include QMK_KEYBOARD_H
+
 #include "ergodox_ez.h"
 #include "debug.h"
 #include "action_layer.h"
@@ -13,9 +15,13 @@ enum custom_keycodes {
 
 //Tap Dance Declarations
 enum {
-  TD_ESC_CAPS = 0
+  TD_ESC_CAPS = 0,
+  TD_LEFT_HOME,
+  TD_DOWN_PGDN,
+  TD_UP_PGUP,
+  TD_RIGHT_END,
 };
-​
+
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Esc, twice for Caps Lock
@@ -26,10 +32,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_RIGHT_END] = ACTION_TAP_DANCE_DOUBLE(KC_RIGHT, KC_END),
 // Other declarations would go here, separated by commas, if you have them
 };
-​
-//In Layer declaration, add tap dance item in place of a key code
-
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* Keymap 0: Basic layer
@@ -48,24 +50,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                        ,-------------.     ,-------------.
    *                                        |  -   | Esc  |     | Del  |  >   |
    *                                 ,------|------|------|     |------+------+------.
-   *                                 |      |      | TT2  |     | TT3  |      |      |
+   *                                 |      |      | TT1  |     | TT2  |      |      |
    *                                 | Space|Enter |------|     |------|  ;   |Space |
-   *                                 |      |      | TT1  |     | TT1  |      |      |
+   *                                 |      |      |      |     |      |      |      |
    *                                 `--------------------'     `--------------------'
    */
-  [0] = KEYMAP(KC_F12,KC_1,KC_2,KC_3,KC_4,KC_5,KC_LBRACKET,
+  [0] = LAYOUT_ergodox(KC_F12,KC_1,KC_2,KC_3,KC_4,KC_5,KC_LBRACKET,
      KC_TAB,KC_Q,KC_W,KC_E,KC_R,KC_T,KC_LCBR,
      LCTL(KC_LSHIFT),KC_A,KC_S,KC_D,KC_F,KC_G,
      KC_LSHIFT,KC_Z,KC_X,KC_C,KC_V,KC_B,KC_LPRN,
      KC_LCTL,KC_LGUI,ALT_T(KC_GRAVE),KC_DQUO,KC_EQUAL,
-     KC_MINUS,KC_ESCAPE,TT(1),KC_SPACE,KC_ENTER,TT(3),
+     KC_MINUS,KC_ESCAPE,TT(1),KC_SPACE,KC_ENTER,KC_TRNS,
 
      KC_RBRACKET,KC_6,KC_7,KC_8,KC_9,KC_0,KC_BSPACE,
      KC_RCBR,KC_Y,KC_U,KC_I,KC_O,KC_P,KC_BSLASH,
      KC_H,KC_J,KC_K,KC_L,KC_SCOLON,KC_QUOTE,
      KC_RPRN,KC_N,KC_M,KC_COMMA,KC_DOT,KC_SLASH,KC_RSHIFT,
      KC_DLR,TD(TD_LEFT_HOME),TD(TD_DOWN_PGDN),TD(TD_UP_PGUP),TD(TD_RIGHT_END),
-     KC_DELETE,KC_RABK,TT(2),TT(3),KC_SCOLON,KC_SPACE),
+     KC_DELETE,KC_RABK,TT(2),KC_TRNS,KC_SCOLON,KC_SPACE),
 
   /* Keymap 0: Basic layer
    *
@@ -88,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                 |      |      | TT1  |     | TT1  |      |      |
    *                                 `--------------------'     `--------------------'
    */
-  [1] = KEYMAP(KC_ESCAPE,KC_F1,KC_F2,KC_F3,KC_F4,KC_F5,KC_TRNS,
+  [1] = LAYOUT_ergodox(KC_ESCAPE,KC_F1,KC_F2,KC_F3,KC_F4,KC_F5,KC_TRNS,
     KC_TRNS,KC_EXLM,KC_AT,KC_LCBR,KC_RCBR,KC_PIPE,KC_TRNS,
     KC_TRNS,KC_HASH,KC_DLR,KC_LPRN,KC_RPRN,KC_GRAVE,KC_TRNS,
     KC_PERC,KC_CIRC,KC_LBRACKET,KC_RBRACKET,KC_TILD,KC_TRNS,
