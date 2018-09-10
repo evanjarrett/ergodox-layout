@@ -4,5 +4,5 @@
 */
 #ifdef TAPPING_TERM
 #undef TAPPING_TERM
-#define TAPPING_TERM 100
+#define TAPPING_TERM 115
 #endif
