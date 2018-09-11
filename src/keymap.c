@@ -5,13 +5,21 @@
 #include "action_layer.h"
 #include "version.h"
 
+enum {
+  LAYER_MAIN = 0,
+  LAYER_NUMBERS,
+  LAYER_MACROS,
+  LAYER_BLANK
+};
+
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
   VRSN,
   RGB_SLD,
-  HSV_88_172_249,
-  PHP_ARROW
+  RGB_AE_GREEN,
+  PHP_ARROW,
+  M_GIT
 };
 
 //Tap Dance Declarations
@@ -25,6 +33,7 @@ enum {
 
 #define MK_LCSHFT LCTL(KC_LSHIFT)
 #define MK_AGRV   ALT_T(KC_GRAVE)
+#define MK_TERM   LCTL(ALT_T(KC_T))
 #define TD_LFTHM  TD(TD_LEFT_HOME)
 #define TD_DNPGDN TD(TD_DOWN_PGDN)
 #define TD_UPPGUP TD(TD_UP_PGUP)
@@ -63,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                 |      |      |      |     |      |      |      |
    *                                 `--------------------'     `--------------------'
    */
-  [0] = LAYOUT_ergodox(
+  [LAYER_MAIN] = LAYOUT_ergodox(
           KC_F12,     KC_1,     KC_2,     KC_3,     KC_4,     KC_5, KC_LBRC,
           KC_TAB,     KC_Q,     KC_W,     KC_E,     KC_R,     KC_T, KC_LCBR,
           MK_LCSHFT,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,
@@ -104,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    *                                 |      |      | Green|     | Hue- |      |      |
    *                                 `--------------------'     `--------------------'
    */
-  [1] = LAYOUT_ergodox(
+  [LAYER_NUMBERS] = LAYOUT_ergodox(
           KC_F12,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_TRNS,
           KC_TRNS,  KC_EXLM,  KC_AT,    KC_LCBR,  KC_RCBR,  KC_PIPE,  KC_TRNS,
           KC_TRNS,  KC_HASH,  KC_DLR,   KC_LPRN,  KC_RPRN,  KC_GRAVE,
@@ -112,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
                     RGB_MOD,  KC_ESCAPE,
                               KC_TRNS,
-          RGB_VAD,  RGB_VAI,  HSV_88_172_249,
+          RGB_VAD,  RGB_VAI,  RGB_AE_GREEN,
 
           KC_PSLS,  KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,
           KC_PAST,  KC_KP_7,  KC_KP_8,  KC_KP_9,  KC_TRNS,  KC_TRNS,  KC_F12,
@@ -124,7 +133,49 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           RGB_HUD,  KC_PPLS,  KC_PENT
         ),
 
-    /* Keymap BLANK:
+    /* Keymap 2: Macros
+     *
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * |        |      |      |      |      | Term |      |           |      |      |      |      |      |      |        |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * |        |      |      |      |      | Git  |------|           |------|      |      |      |      |      |        |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   |      |      |      |      |      |                                       |      |      |      |      |      |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        |      |      |       |      |      |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      |      |       |      |      |      |
+     *                                 |      |      |------|       |------|      |      |
+     *                                 |      |      |      |       |      |      |      |
+     *                                 `--------------------'       `--------------------'
+     */
+    [LAYER_MACROS] = LAYOUT_ergodox(
+           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MK_TERM, KC_TRNS,
+           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, M_GIT,
+           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                    KC_TRNS, KC_TRNS,
+                             KC_TRNS,
+           KC_TRNS, KC_TRNS, KC_TRNS,
+
+           // right hand
+           KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+           KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                     KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+           KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+                              KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+           KC_TRNS, KC_TRNS,
+           KC_TRNS,
+           KC_TRNS, KC_TRNS, KC_TRNS
+    ),
+
+    /* Keymap Blank:
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
@@ -145,7 +196,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                 |      |      |      |       |      |      |      |
      *                                 `--------------------'       `--------------------'
      */
-    [2] = LAYOUT_ergodox(
+    [LAYER_BLANK] = LAYOUT_ergodox(
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
@@ -204,15 +255,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case RGB_SLD:
           rgblight_mode(1);
           return false;
-        case HSV_88_172_249:
+        case RGB_AE_GREEN:
           #ifdef RGBLIGHT_ENABLE
             rgblight_enable();
-            rgblight_mode(1);
-            rgblight_sethsv(88,172,249);
+            rgblight_mode(2);
+            rgblight_setrgb(101, 175, 76);
           #endif
           return false;
         case PHP_ARROW:
           SEND_STRING("->");
+          return false;
+        case M_GIT:
+          SEND_STRING("git commit -am \"");
           return false;
         }
     }
