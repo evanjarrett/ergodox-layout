@@ -19,7 +19,9 @@ enum custom_keycodes {
   RGB_SLD,
   RGB_AE_GREEN,
   PHP_ARROW,
-  M_GIT
+  M_GIT,
+  M_CLEAR,
+  M_CBLCK
 };
 
 //Tap Dance Declarations
@@ -32,8 +34,8 @@ enum {
 };
 
 #define MK_LCSHFT LCTL(KC_LSHIFT)
-#define MK_AGRV   ALT_T(KC_GRAVE)
-#define MK_TERM   LCTL(ALT_T(KC_T))
+#define MK_ADQUO  ALT_T(KC_DQUO)
+#define MK_TERM   LCTL(LALT(KC_T))
 #define TD_LFTHM  TD(TD_LEFT_HOME)
 #define TD_DNPGDN TD(TD_DOWN_PGDN)
 #define TD_UPPGUP TD(TD_UP_PGUP)
@@ -62,14 +64,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |--------+------+------+------+------+------|  (   |         |  )   |------+------+------+------+------+--------|
    * | LShift |   Z  |   X  |   C  |   V  |   B  |      |         |      |   N  |   M  |   ,  |   .  |   /  | RShift |
    * `--------+------+------+------+------+-------------'         `-------------+------+------+------+------+--------'
-   *   | Ctrl |  Gui |  Alt |   "  |   =  |                                     |   $  | Left | Down |  Up  | Right|
+   *   | Ctrl |  Gui |  Alt | `/```|   =  |                                     |   $  | Left | Down |  Up  | Right|
    *   `----------------------------------'                                     `----------------------------------'
    *                                        ,-------------.     ,-------------.
    *                                        |  -   | Esc  |     | Del  |  ->  |
    *                                 ,------|------|------|     |------+------+------.
-   *                                 |      |      | TT1  |     | TT2  |      |      |
+   *                                 |      |      | TT1  |     |      |      |      |
    *                                 | Space|Enter |------|     |------|  ;   |Space |
-   *                                 |      |      |      |     |      |      |      |
+   *                                 |      |      | TT2  |     |  "   |      |      |
    *                                 `--------------------'     `--------------------'
    */
   [LAYER_MAIN] = LAYOUT_ergodox(
@@ -77,10 +79,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_TAB,     KC_Q,     KC_W,     KC_E,     KC_R,     KC_T, KC_LCBR,
           MK_LCSHFT,  KC_A,     KC_S,     KC_D,     KC_F,     KC_G,
           KC_LSHIFT,  KC_Z,     KC_X,     KC_C,     KC_V,     KC_B, KC_LPRN,
-          KC_LCTL,    KC_LGUI,  MK_AGRV,  KC_DQUO,  KC_EQUAL,
+          KC_LCTL,    KC_LGUI,  KC_LALT,  M_CBLCK,  KC_EQUAL,
                       KC_MINUS, KC_ESCAPE,
                                 TT(1),
-          KC_SPACE,   KC_ENTER, KC_TRNS,
+          KC_SPACE,   KC_ENTER, TT(2),
 
           KC_RBRC,    KC_6,     KC_7,       KC_8,       KC_9,     KC_0,     KC_BSPACE,
           KC_RCBR,    KC_Y,     KC_U,       KC_I,       KC_O,     KC_P,     KC_BSLASH,
@@ -88,8 +90,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           KC_RPRN,    KC_N,     KC_M,       KC_COMMA,   KC_DOT,   KC_SLASH, KC_RSHIFT,
           KC_DLR,     TD_LFTHM, TD_DNPGDN,  TD_UPPGUP,  TD_RTEND,
           KC_DELETE,  PHP_ARROW,
-          TT(2),
-          KC_TRNS,    KC_SCLN,  KC_SPACE
+          KC_TRNS,
+          KC_DQUO,    KC_SCLN,  KC_SPACE
    ),
 
   /* Keymap 1: Symbols & Numbers
@@ -142,7 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * |        |      |      |      |      | Git  |------|           |------|      |      |      |      |      |        |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+     * |        |      |      |Clear |      |      |      |           |      |      |      |      |      |      |        |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
      *   |      |      |      |      |      |                                       |      |      |      |      |      |
      *   `----------------------------------'                                       `----------------------------------'
@@ -158,7 +160,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, MK_TERM, KC_TRNS,
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, M_GIT,
-           KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
+           KC_TRNS, KC_TRNS, KC_TRNS, M_CLEAR, KC_TRNS, KC_TRNS, KC_TRNS,
            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,
                     KC_TRNS, KC_TRNS,
                              KC_TRNS,
@@ -243,7 +245,10 @@ void matrix_init_user(void) {
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  static uint16_t code_timer;
+
     if (record->event.pressed) {
+      code_timer = timer_read();
       switch (keycode) {
         // dynamically generate these.
         case EPRM:
@@ -268,7 +273,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case M_GIT:
           SEND_STRING("git commit -am \"");
           return false;
+        case M_CLEAR:
+          SEND_STRING("clear"SS_TAP(X_ENTER));
+          return false;
+        case M_CBLCK:
+          SEND_STRING("`");
+          return false;
         }
+    }
+    else {
+      if (timer_elapsed(code_timer) > TAPPING_TERM) {
+        switch (keycode) {
+          case M_CBLCK:
+            // Hold
+            SEND_STRING("``");
+            return true;
+        }
+      }
+      else {
+        // Tap
+      }
     }
     return true;
 }
