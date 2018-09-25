@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+-------------|         |------+------+------+------+------+------+--------|
      * | Tab    |   Q  |   W  |   E  |   R  |   T  |  {   |         |  }   |   Y  |   U  |   I  |   O  |   P  |   \    |
      * |--------+------+------+------+------+------|      |         |      |------+------+------+------+------+--------|
-     * |CtrlShft|   A  |   S  |   D  |   F  |   G  |------|         |------|   H  |   J  |   K  |   L  |   ;  |   '    |
+     * |CtrlShft|   A  |   S  |   D  |   F  |   G  |------|         |------|   H  |   J  |   K  |   L  |   '  | Enter  |
      * |--------+------+------+------+------+------|  (   |         |  )   |------+------+------+------+------+--------|
      * | LShift |   Z  |   X  |   C  |   V  |   B  |      |         |      |   N  |   M  |   ,  |   .  |   /  | RShift |
      * `--------+------+------+------+------+-------------'         `-------------+------+------+------+------+--------'
@@ -87,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
             KC_RBRC,    KC_6,     KC_7,     KC_8,      KC_9,      KC_0,       KC_BSPACE,
             KC_RCBR,    KC_Y,     KC_U,     KC_I,      KC_O,      KC_P,       KC_BSLASH,
-                        KC_H,     KC_J,     KC_K,      KC_L,      KC_SCLN,    KC_QUOTE,
+                        KC_H,     KC_J,     KC_K,      KC_L,      KC_QUOTE,   KC_ENTER,
             KC_RPRN,    KC_N,     KC_M,     KC_COMMA,  KC_DOT,    KC_SLASH,   KC_RSHIFT,
                                   KC_DLR,   TD_LFTHM,  TD_DNPGDN, TD_UPPGUP,  TD_RTEND,
             KC_DELETE,  PHP_ARROW,
